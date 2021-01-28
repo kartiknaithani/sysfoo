@@ -32,8 +32,11 @@ pipeline {
         docker {
           image 'maven:3.6.3-jdk-11-slim'
         }
-
       }
+      when {
+        beforeAgent true
+        branch 'master'
+        }
       steps {
         echo 'Packaging sysfoo app'
         sh 'mvn package -DskipTests'
@@ -42,6 +45,10 @@ pipeline {
     }
 
     stage('Docker B&P') {
+      when {
+        beforeAgent true
+        branch 'master'
+        }
       steps {
         script {
           docker.withRegistry('https://index.docker.io/v1/', 'dockerlogin') {
@@ -59,5 +66,17 @@ pipeline {
       }
     }
 
+      stage('Deploy to Dev') {
+      agent any
+      when {
+        beforeAgent true
+        branch 'master'
+        }
+      steps {
+        echo 'Deploying to Dev environment with docker-compose'
+        sh 'docker-compose up -d'
+      }
+    }
+    }
+
   }
-}
