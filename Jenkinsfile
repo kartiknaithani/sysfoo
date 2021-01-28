@@ -32,12 +32,11 @@ pipeline {
         docker {
           image 'maven:3.6.3-jdk-11-slim'
         }
+      }
       when {
         beforeAgent true
         branch 'master'
         }
-
-      }
       steps {
         echo 'Packaging sysfoo app'
         sh 'mvn package -DskipTests'
