@@ -4,4 +4,4 @@ services:
   sysfoo:
     image: kartik27/sysfoo:latest
     ports:
-      - 7777:8080
+      - 8888:8080
